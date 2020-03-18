@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "method": "POST",
+            "url": "/qq",
+            "time": 1584534128034
+        },
+        {
+            "method": "GET",
+            "url": "/test",
+            "time": 1584534150436
+        },
+        {
+            "method": "DELETE",
+            "url": "/",
+            "time": 1584534158441
+        }
+    ]
+}
