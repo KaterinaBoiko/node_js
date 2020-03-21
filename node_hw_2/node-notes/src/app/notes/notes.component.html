@@ -1,0 +1,9 @@
+<div [hidden]="notes">Loading..</div>
+<div *ngFor="let note of notes" class="check">
+    <mat-checkbox [(ngModel)]="note.done" (change)="changeNote(note)" ></mat-checkbox>
+    <input class="name" [(ngModel)]="note.name" (blur)="changeNote(note)">
+    <i class="fas fa-times" (click)="deleteNote(note.id)"></i>
+    <input class="description" [(ngModel)]="note.description" (blur)="changeNote(note)">
+</div>
+
+<button (click)="addNote()">Add note</button>

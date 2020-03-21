@@ -1,0 +1,12 @@
+<form novalidate [formGroup]="loginForm" #login="ngForm" (ngSubmit)="onSubmit()">
+
+    <input matInput formControlName="username" placeholder="Username" type="text" required>
+    <div class="error" *ngIf="loginForm.get('username').hasError('required') && loginForm.get('username').touched">
+        Username is required</div>
+
+    <input matInput formControlName="password" placeholder="Password" type="password" required>
+    <div class="error" *ngIf="loginForm.get('password').hasError('required') && loginForm.get('password').touched">
+        Password is required</div>
+
+    <button type="submit" mat-button [disabled]="loginForm.invalid">Submit</button>
+</form>

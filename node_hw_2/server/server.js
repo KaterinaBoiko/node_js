@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const app = express();
 
 const log = require('./routes/middleware/log');
@@ -10,6 +11,7 @@ const userRouter = require('./routes/api/me');
 const notesRouter = require('./routes/api/notes');
 
 app.use(express.json());
+app.use(cors());
 app.use(log);
 
 app.use('/api', booksRouter);
