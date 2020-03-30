@@ -7,6 +7,10 @@
 # Only exists if Bazel was run
 /bazel-out
 
+task
+
+local.js
+
 # dependencies
 node_modules/
 

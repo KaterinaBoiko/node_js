@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "name": "Cook",
+        "description": "Make a breakfast",
+        "userId": 1,
+        "done": false
+    },
+    {
+        "id": 2,
+        "name": "HW",
+        "description": "Do your homework",
+        "userId": 1,
+        "done": true
+    },
+    {
+        "id": 3,
+        "name": "Node",
+        "description": "Rewatch the last lesson",
+        "userId": 1,
+        "done": true
+    },
+    {
+        "id": 4,
+        "name": "Cleaning",
+        "description": "Wash the dishes",
+        "userId": 1,
+        "done": false
+    },
+    {
+        "id": 5,
+        "name": "Dog",
+        "description": "have a walk with your dog",
+        "userId": 2,
+        "done": false
+    },
+    {
+        "id": 6,
+        "name": "Book",
+        "description": "Finish the book",
+        "userId": 2,
+        "done": false
+    },
+    {
+        "id": 7,
+        "name": "Do it!",
+        "description": "just smile :)",
+        "done": false,
+        "userId": 1
+    },
+    {
+        "id": 9,
+        "name": "one new task",
+        "description": "it seems to be working",
+        "userId": 1,
+        "done": true
+    },
+    {
+        "id": 11,
+        "name": "Smile",
+        "description": "don`t forget",
+        "userId": 2,
+        "done": false
+    },
+    {
+        "id": 12,
+        "name": "new notefgf",
+        "description": "description here",
+        "userId": 1,
+        "done": false
+    }
+]
