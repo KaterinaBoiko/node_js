@@ -9,11 +9,15 @@ const app = express();
 
 //  const loginRouter = require('./routes/api/login');
 const driverRouter = require('./routes/api/drivers');
+const shipperRouter = require('./routes/api/shippers');
+const truckRouter = require('./routes/api/trucks');
 
 app.use(express.json());
 app.use(cors());
 //  app.use(log);
 app.use('/api', driverRouter);
+app.use('/api', shipperRouter);
+app.use('/api', truckRouter);
 //  app.use('/api', loginRouter);
 
 //  app.use(auth);

@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 module.exports = mongoose.model('Truck',
     mongoose.Schema({
         type: {
