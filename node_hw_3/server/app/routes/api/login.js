@@ -1,27 +1,35 @@
 const jwt = require('jsonwebtoken');
 const express = require('express');
 const config = require('config');
-
-console.log(config);
-const router = express.Router();
-
 const secret = config.get('secret');
 
-const users = [
-    { id: 1, username: 'Kateryna', password: '123abc' },
-    { id: 2, username: 'Vova', password: '123456' }
-]
+const userSchema = require('../../joiSchemas/userSchema');
+const Driver = require('../../db/models/driver');
+const Shipper = require('../../db/models/shipper');
+
+const router = express.Router();
+
 router.post('/login', (req, res) => {
-    const { username, password } = req.body;
+    const { error, value } = userSchema.validate(req.body);
 
-    const [user] = users.filter(user => (user.username == username && user.password == password));
-
-    if (!user) {
-        res.status(401).json({ status: 'User not found' });
+    if (error)
+        res.status(400).json({ error: error.details[0].message })
+    else {
+        Driver.findOne(value, (err, driver) => {
+            if (!driver) {
+                Shipper.findOne(value, (err, shipper) => {
+                    if (!shipper) res.status(400).json({ error: err })
+                    else {
+                        const jwtToken = jwt.sign(shipper.toJSON(), secret);
+                        res.json({ role: "shipper", jwtToken: jwtToken });
+                    }
+                })
+            } else {
+                const jwtToken = jwt.sign(driver.toJSON(), secret);
+                res.json({ role: "driver", jwtToken: jwtToken });
+            }
+        })
     }
-
-    const jwtToken = jwt.sign(user, secret);
-    res.json({ jwtToken: jwtToken });
 });
 
 module.exports = router;
