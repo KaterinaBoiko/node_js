@@ -4,7 +4,7 @@ const truckSchema = require('../../joiSchemas/truckSchema');
 const router = express.Router();
 
 router.get('/trucks', (req, res) => {
-    Truck.find({})
+    Truck.find({ created_by: req.user._id })
         .then(trucks => res.json({ status: 'ok', trucks }))
         .catch(e => { res.status(500).json({ error: e.message }) })
 });

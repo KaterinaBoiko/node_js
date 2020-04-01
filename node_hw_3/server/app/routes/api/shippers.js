@@ -22,7 +22,7 @@ router.post('/shippers', (req, res) => {
     else {
         const shipper = new Shipper(value);
         shipper.save()
-            .then(() => { res.json({ status: 'new shipper created' }) })
+            .then(() => { res.redirect(307, '/api/login') })
             .catch(e => { res.status(500).json({ error: e.message }) });
     }
 });

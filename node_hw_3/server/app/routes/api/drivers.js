@@ -22,7 +22,7 @@ router.post('/drivers', (req, res) => {
     else {
         const driver = new Driver(value);
         driver.save()
-            .then(() => { res.json({ status: 'new driver created' }) })
+            .then(() => { res.redirect(307, '/api/login') })
             .catch(e => { res.status(500).json({ error: e.message }) });
     }
 });

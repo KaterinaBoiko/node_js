@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
-const secret = require('../../config/auth').secret;
+const config = require('config');
+
+const secret = config.get('secret');
 
 module.exports = (req, res, next) => {
     // JWT ajsrdfdlojio

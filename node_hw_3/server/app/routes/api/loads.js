@@ -4,7 +4,7 @@ const loadSchema = require('../../joiSchemas/loadSchema');
 const router = express.Router();
 
 router.get('/loads', (req, res) => {
-    Load.find({})
+    Load.find({ created_by: req.user._id })
         .then(loads => res.json({ status: 'ok', loads }))
         .catch(e => { res.status(500).json({ error: e.message }) })
 });
