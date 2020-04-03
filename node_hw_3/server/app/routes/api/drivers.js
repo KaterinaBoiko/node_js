@@ -1,6 +1,7 @@
 const express = require('express');
 const Driver = require('../../db/models/driver');
 const driverSchema = require('../../joiSchemas/userSchema');
+const bcrypt = require("bcrypt");
 const router = express.Router();
 
 router.get('/drivers', (req, res) => {
@@ -15,16 +16,20 @@ router.get('/drivers/:id', (req, res) => {
         .catch(e => { res.status(500).json({ error: e.message }) })
 });
 
-router.post('/drivers', (req, res) => {
+router.post('/drivers', async (req, res) => {
     const { error, value } = driverSchema.validate(req.body);
     if (error)
-        res.status(400).json({ error: error.details[0].message })
-    else {
-        const driver = new Driver(value);
-        driver.save()
-            .then(() => { res.redirect(307, '/api/login') })
-            .catch(e => { res.status(500).json({ error: e.message }) });
-    }
+        return res.status(400).json({ error: error.details[0].message })
+
+    const driver = new Driver(value);
+    await bcrypt
+        .hash(driver.password, 10)
+        .then(hash => driver.password = hash)
+        .catch(err => res.status(500).json({ error: err.message }))
+
+    driver.save()
+        .then(() => { res.redirect(307, '/api/login') })
+        .catch(e => { res.status(500).json({ error: e.message }) });
 });
 
 router.delete('/drivers/:id', (req, res) => {

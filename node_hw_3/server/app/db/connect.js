@@ -4,7 +4,8 @@ const config = require('config');
 mongoose.connect(config.get('dbUrl'), {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useCreateIndex: true
 });
 
 module.exports = mongoose;

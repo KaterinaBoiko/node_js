@@ -1,6 +1,7 @@
 const express = require('express');
 const Shipper = require('../../db/models/shipper');
 const shipperSchema = require('../../joiSchemas/userSchema');
+const bcrypt = require("bcrypt");
 const router = express.Router();
 
 router.get('/shippers', (req, res) => {
@@ -15,16 +16,20 @@ router.get('/shippers/:id', (req, res) => {
         .catch(e => { res.status(500).json({ error: e.message }) })
 });
 
-router.post('/shippers', (req, res) => {
+router.post('/shippers', async (req, res) => {
     const { error, value } = shipperSchema.validate(req.body);
     if (error)
-        res.status(400).json({ error: error.details[0].message })
-    else {
-        const shipper = new Shipper(value);
-        shipper.save()
-            .then(() => { res.redirect(307, '/api/login') })
-            .catch(e => { res.status(500).json({ error: e.message }) });
-    }
+        return res.status(400).json({ error: error.details[0].message })
+
+    const shipper = new Shipper(value);
+    await bcrypt
+        .hash(shipper.password, 10)
+        .then(hash => shipper.password = hash)
+        .catch(err => res.status(500).json({ error: err.message }))
+
+    shipper.save()
+        .then(() => { res.redirect(307, '/api/login') })
+        .catch(e => { res.status(500).json({ error: e.message }) });
 });
 
 router.delete('/shippers/:id', (req, res) => {

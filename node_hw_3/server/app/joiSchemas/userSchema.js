@@ -9,6 +9,12 @@ module.exports = Joi.object().keys({
         "string.min": 'Username should have a minimum length of 3.',
         "string.max": 'Username should have a maximum length of 30.'
     }),
-    email: Joi.string().email().message('Email is not valid.'),
-    password: Joi.string()
+    email: Joi.string().email().required().messages({
+        "string.email": 'Email is not valid.',
+        "any.required": 'Email is required.'
+    }),
+    password: Joi.string().min(5).max(30).messages({
+        "string.min": 'Password should have a minimum length of 5.',
+        "string.max": 'Password should have a maximum length of 30.'
+    })
 });

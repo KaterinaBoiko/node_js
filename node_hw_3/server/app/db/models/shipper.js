@@ -7,7 +7,11 @@ module.exports = mongoose.model('Shipper',
             type: String,
             required: true
         },
-        email: String,
+        email: {
+            type: String,
+            required: true,
+            unique: true
+        },
         password: {
             type: String,
             required: true
