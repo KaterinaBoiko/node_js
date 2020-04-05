@@ -1,6 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthorizationService } from 'src/app/services/authorization.service';
+import { User } from 'src/app/shared/classes/user';
 
 export interface SignUpData {
   name: string;
@@ -16,13 +20,16 @@ export interface SignUpData {
 })
 export class SignUpComponent implements OnInit {
   signUpForm: FormGroup;
-  signUpData: SignUpData;
+  user: User;
   hidePass = true;
 
   constructor(
     public dialogRef: MatDialogRef<SignUpComponent>,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: SignUpData,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authService: AuthorizationService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -32,34 +39,51 @@ export class SignUpComponent implements OnInit {
   createForm() {
     this.signUpForm = this.fb.group(
       {
-        name: ['', [Validators.minLength(2), Validators.maxLength(30)]],
+        name: [null, [Validators.minLength(2), Validators.maxLength(30)]],
         username: [
-          '',
+          'Anna',
           [
             Validators.required,
             Validators.minLength(3),
             Validators.maxLength(30),
           ],
         ],
-        email: ['', [Validators.required, Validators.email]],
+        role: [null, Validators.required],
+        email: ['ss@ss.com', [Validators.required, Validators.email]],
         password: [
-          '',
+          '12345',
           [
             Validators.required,
             Validators.minLength(5),
             Validators.maxLength(30),
           ],
         ],
-        confirmPass: ['', [Validators.required]],
+        confirmPass: ['12345', [Validators.required]],
       },
       { validator: this.mustMatch('password', 'confirmPass') }
     );
   }
 
   onSubmit() {
-    this.signUpData = this.signUpForm.value;
-    console.log(this.signUpData);
-    this.dialogRef.close();
+    delete this.signUpForm.value.confirmPass;
+    this.user = this.signUpForm.value;
+    console.log(this.user);
+    this.authService
+      .register(this.user)
+      .then((result: any) => {
+        console.log(result);
+        localStorage.setItem('token', result.jwtToken);
+        this.router.navigateByUrl('/' + result.role);
+        this.dialogRef.close();
+      })
+      .catch((error) => {
+        console.log(error.error);
+        this.openSnackBar(error.error);
+      });
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'OK', { duration: 3000 });
   }
 
   mustMatch(controlName: string, matchingControlName: string) {

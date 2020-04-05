@@ -1,8 +1,8 @@
 const Joi = require('@hapi/joi');
 
 module.exports = Joi.object().keys({
-    name: Joi.string().min(3).max(30).messages({
-        "string.min": 'Name should have a minimum length of 3.',
+    name: Joi.string().allow(null).min(2).max(30).messages({
+        "string.min": 'Name should have a minimum length of 2.',
         "string.max": 'Name should have a maximum length of 30.'
     }),
     username: Joi.string().min(3).max(30).messages({
@@ -16,5 +16,6 @@ module.exports = Joi.object().keys({
     password: Joi.string().min(5).max(30).messages({
         "string.min": 'Password should have a minimum length of 5.',
         "string.max": 'Password should have a maximum length of 30.'
-    })
+    }),
+    role: Joi.string(),
 });

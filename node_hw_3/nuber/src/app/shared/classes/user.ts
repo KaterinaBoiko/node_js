@@ -4,6 +4,7 @@ export class User {
   username: string;
   email: string;
   password: string;
+  role: string;
 
   constructor(email, password) {
     if (new.target === User)

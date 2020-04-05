@@ -33,6 +33,15 @@ mat-form-field {
     background-color: rgb(107, 107, 107) !important;
 }
 
+mat-radio-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.roleLabel {
+    font-weight: bold;
+}
+
 i {
     position: absolute;
     bottom: 0;

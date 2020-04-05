@@ -38,6 +38,12 @@
             </mat-error>
         </mat-form-field>
 
+        <mat-radio-group formControlName="role">
+            <mat-label class="roleLabel">Choose role</mat-label>
+            <mat-radio-button value="driver">Driver</mat-radio-button>
+            <mat-radio-button value="shipper">Shipper</mat-radio-button>
+        </mat-radio-group>
+
         <mat-form-field>
             <mat-label>Enter your password</mat-label>
             <input matInput [type]="hidePass ? 'password' : 'text'" formControlName="password"

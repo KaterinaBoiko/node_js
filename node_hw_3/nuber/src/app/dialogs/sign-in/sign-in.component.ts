@@ -1,6 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthorizationService } from 'src/app/services/authorization.service';
+import { User } from 'src/app/shared/classes/user';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 export interface SignInData {
   email: string;
@@ -14,13 +18,16 @@ export interface SignInData {
 })
 export class SignInComponent implements OnInit {
   signInForm: FormGroup;
-  signInData: SignInData;
+  user: User;
   hidePass = true;
 
   constructor(
     public dialogRef: MatDialogRef<SignInComponent>,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: SignInData,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private authService: AuthorizationService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -29,14 +36,37 @@ export class SignInComponent implements OnInit {
 
   createForm() {
     this.signInForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      email: ['a@g.com', [Validators.required, Validators.email]],
+      password: [
+        '12345',
+        [
+          Validators.required,
+          Validators.minLength(5),
+          Validators.maxLength(30),
+        ],
+      ],
+      role: ['', Validators.required],
     });
   }
 
   onSubmit() {
-    this.signInData = this.signInForm.value;
-    console.log(this.signInData);
-    this.dialogRef.close();
+    this.user = this.signInForm.value;
+    console.log(this.user);
+    this.authService
+      .login(this.user)
+      .then((result: any) => {
+        console.log(result);
+        localStorage.setItem('token', result.jwtToken);
+        this.router.navigateByUrl('/' + result.role);
+        this.dialogRef.close();
+      })
+      .catch((error) => {
+        console.log(error.error);
+        this.openSnackBar(error.error);
+      });
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'OK', { duration: 3000 });
   }
 }

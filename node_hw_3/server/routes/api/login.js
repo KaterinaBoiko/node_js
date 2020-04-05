@@ -12,37 +12,44 @@ const router = express.Router();
 
 router.post('/login', (req, res) => {
     const { error, value } = userSchema.validate(req.body);
-    console.log(value);
     if (error)
-        return res.status(400).json({ error: error.details[0].message })
+        return res.status(400).json(error.details[0].message)
 
-    Driver.findOne({ email: value.email }, (err, driver) => {
-        console.log(driver);
-        if (!driver) {
-            Shipper.findOne({ email: value.email }, (err, shipper) => {
-                console.log(shipper);
-                if (!shipper)
-                    return res.status(400).json({ error: 'Such email is not registered.' })
+    if (!value.role)
+        return res.status(400).json('Role wasn`t specified.')
 
-                sendToken(req, res, shipper, "shipper");
-            })
-        } else
-            sendToken(req, res, driver, "driver");
-    })
+    if (value.role == 'driver') {
+        Driver.findOne({ email: value.email }, (err, driver) => {
+            if (!driver)
+                return res.status(400).json('Such email is not registered as a driver.')
 
+            sendToken(req, res, driver);
+        })
+        return;
+    }
+
+    if (value.role == 'shipper') {
+        Shipper.findOne({ email: value.email }, (err, shipper) => {
+            if (!shipper)
+                return res.status(400).json('Such email is not registered as a shipper.')
+
+            sendToken(req, res, shipper);
+        })
+        return;
+    }
 });
 
 function checkPassword(req, user) {
     return bcrypt.compare(req.body.password, user.password);
 }
 
-async function sendToken(req, res, user, role) {
+async function sendToken(req, res, user) {
     const passCorrect = await checkPassword(req, user);
     if (!passCorrect)
-        return res.status(400).json({ error: "Password is incorrect." });
+        return res.status(400).json("Password is incorrect.");
 
     const jwtToken = jwt.sign(user.toJSON(), secret);
-    res.json({ role: role, jwtToken: jwtToken });
+    res.json({ role: req.body.role, jwtToken: jwtToken });
 }
 
 module.exports = router;
