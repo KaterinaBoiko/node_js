@@ -1,0 +1,31 @@
+<form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+    <div class="wrapper">
+        <p class="title">Sign In</p>
+
+        <mat-form-field>
+            <mat-label>Enter your email</mat-label>
+            <input matInput formControlName="email" placeholder="Your email" type="text" required>
+            <mat-error *ngIf="signInForm.get('email').hasError('required')">
+                Email is required
+            </mat-error>
+            <mat-error *ngIf="signInForm.get('email').hasError('email')">
+                Email is not valid
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Enter your password</mat-label>
+            <input matInput [type]="hidePass ? 'password' : 'text'" formControlName="password"
+                placeholder="Your password" required>
+            <i matSuffix [class]="hidePass ? 'fas fa-eye-slash' : 'fas fa-eye'" (click)="hidePass = !hidePass"></i>
+            <mat-error *ngIf="signInForm.get('password').hasError('required')">
+                Password is required
+            </mat-error>
+        </mat-form-field>
+
+        <div class="login">
+            <a>Forgot password?</a>
+            <button type="submit" [disabled]="signInForm.invalid">Submit</button>
+        </div>
+    </div>
+</form>
