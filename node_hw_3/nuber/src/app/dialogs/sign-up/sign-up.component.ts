@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthorizationService } from 'src/app/services/authorization.service';
 import { User } from 'src/app/shared/classes/user';
+import { UserService } from 'src/app/services/user.service';
 
 export interface SignUpData {
   name: string;
@@ -29,6 +30,7 @@ export class SignUpComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: SignUpData,
     private fb: FormBuilder,
     private authService: AuthorizationService,
+    private userService: UserService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -72,8 +74,8 @@ export class SignUpComponent implements OnInit {
       .register(this.user)
       .then((result: any) => {
         console.log(result);
-        localStorage.setItem('token', result.jwtToken);
-        this.router.navigateByUrl('/' + result.role);
+        this.userService.setUserData(this.user.role, result.jwtToken);
+        this.router.navigateByUrl('/' + this.user.role);
         this.dialogRef.close();
       })
       .catch((error) => {

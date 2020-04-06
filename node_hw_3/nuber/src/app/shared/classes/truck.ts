@@ -1,13 +1,14 @@
 export class Truck {
   id: string;
-  type: string;
+  type: TruckType;
   created_by: string;
   assigned_by: string;
-  status: string;
+  status: { abbr: string; status: string };
 
-  constructor(type, created_by) {
+  constructor(type: TruckType, created_by: string) {
     this.type = type;
     this.created_by = created_by;
+    this.status = TruckStatuses[0];
   }
 }
 
@@ -16,7 +17,7 @@ export const TruckStatuses = [
   { abbr: 'OL', status: 'On load' },
 ];
 
-class TruckType {
+export class TruckType {
   name: string;
   dimensions: {
     width: number;

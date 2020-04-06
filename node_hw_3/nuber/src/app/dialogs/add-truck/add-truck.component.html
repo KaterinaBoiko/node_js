@@ -1,0 +1,16 @@
+<p class="label">Choose truck type:</p>
+<mat-radio-group [(ngModel)]="truckTypeName">
+    <mat-radio-button *ngFor='let trType of truckTypes' value="{{trType.name}}">
+        <div class="typeInfo">
+            <p class="name">{{ trType.name }}</p>
+            <p class="dimensions">Dimensions:</p>
+            <ul>
+                <li>Width: {{ trType.dimensions.width }}</li>
+                <li>Lenght: {{ trType.dimensions.lenght }}</li>
+                <li>Height: {{ trType.dimensions.height }}</li>
+            </ul>
+            <p>Payload: {{ trType.payload }}</p>
+        </div>
+    </mat-radio-button>
+</mat-radio-group>
+<button (click)="chooseType()" [disabled]="!truckTypeName">Submit</button>

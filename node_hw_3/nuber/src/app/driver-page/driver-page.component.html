@@ -1,1 +1,30 @@
-<p>driver-page works!</p>
+<div *ngIf="!currDriver">Oops, you don`t have permission</div>
+<div *ngIf="currDriver" class="main">
+    <p>driver-page works!</p>
+    <a routerLink="/profile">Profile</a>
+    <table>
+        <tr>
+            <th>Type</th>
+            <th>Dimesions</th>
+            <th>Payload</th>
+            <th>Status</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let truck of createdTrucks">
+            <td>{{capitalize(truck.type.name)}}</td>
+            <td>{{truck.type.dimensions.width}}x{{truck.type.dimensions.length}}x{{truck.type.dimensions.height}}</td>
+            <td>{{truck.type.payload}}</td>
+            <td>
+                <mat-select [(value)]="truck.status.abbr" [disabled]="truck.assigned_by">
+                    <mat-option value="is">IS</mat-option>
+                    <mat-option value="ol">OL</mat-option>
+                </mat-select>
+            </td>
+            <td *ngIf="!truck.assigned_by"><button>Assign</button></td>
+            <td *ngIf="truck.assigned_by"><span class="assigned">Assigned</span></td>
+            <td *ngIf="!truck.assigned_by"><i class="fas fa-trash"></i></td>
+        </tr>
+    </table>
+    <button (click)="openDialogAddTruck()">Add truck</button>
+</div>

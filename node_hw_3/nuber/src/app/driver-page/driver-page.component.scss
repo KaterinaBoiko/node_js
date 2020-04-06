@@ -1,0 +1,24 @@
+table {
+    min-width: 50%;
+}
+
+td,
+th {
+    //border: 1px solid black;
+}
+
+td {
+    text-align: center;
+}
+
+.assigned {
+    background-color: #ff4081;
+    color: white;
+    border-radius: 3px;
+    cursor: default;
+    padding: 0 3px;
+}
+
+i {
+    cursor: pointer;
+}

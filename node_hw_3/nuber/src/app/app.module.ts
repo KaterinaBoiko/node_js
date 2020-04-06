@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -18,6 +19,7 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { SignInComponent } from './dialogs/sign-in/sign-in.component';
 import { SignUpComponent } from './dialogs/sign-up/sign-up.component';
+import { AddTruckComponent } from './dialogs/add-truck/add-truck.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,7 @@ import { SignUpComponent } from './dialogs/sign-up/sign-up.component';
     LandingPageComponent,
     SignInComponent,
     SignUpComponent,
+    AddTruckComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,11 +41,12 @@ import { SignUpComponent } from './dialogs/sign-up/sign-up.component';
     MatInputModule,
     MatRadioModule,
     MatSnackBarModule,
+    MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  providers: [SignInComponent, SignUpComponent],
+  providers: [SignInComponent, SignUpComponent, AddTruckComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

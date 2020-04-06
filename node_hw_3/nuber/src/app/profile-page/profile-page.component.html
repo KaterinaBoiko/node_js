@@ -1,1 +1,34 @@
-<p>profile-page works!</p>
+<div class="main">
+    <form #userData="ngForm" *ngIf="user" (ngSubmit)="onSubmit(userData.value)">
+        <table>
+            <tr>
+                <td>
+                    <span>Username:</span>
+                </td>
+                <td>
+                    <input [(ngModel)]="user.username" name="username">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Name:</span>
+                </td>
+                <td>
+                    <input [(ngModel)]="user.name" placeholder="Your name" name="name">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span>Email:</span>
+                </td>
+                <td>
+                    <input [(ngModel)]="user.email" placeholder="Your email" name="email">
+                </td>
+            </tr>
+        </table>
+        <button type="submit">Save changes</button>
+    </form>
+    <button class="delete">Delete account</button>
+    <button class="changePass">Change password</button>
+
+</div>

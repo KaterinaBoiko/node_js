@@ -5,6 +5,7 @@ import { AuthorizationService } from 'src/app/services/authorization.service';
 import { User } from 'src/app/shared/classes/user';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/services/user.service';
 
 export interface SignInData {
   email: string;
@@ -27,6 +28,7 @@ export class SignInComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: SignInData,
     private fb: FormBuilder,
     private authService: AuthorizationService,
+    private userService: UserService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -36,7 +38,7 @@ export class SignInComponent implements OnInit {
 
   createForm() {
     this.signInForm = this.fb.group({
-      email: ['a@g.com', [Validators.required, Validators.email]],
+      email: ['qq@ss.com', [Validators.required, Validators.email]],
       password: [
         '12345',
         [
@@ -56,8 +58,9 @@ export class SignInComponent implements OnInit {
       .login(this.user)
       .then((result: any) => {
         console.log(result);
+        localStorage.setItem('role', this.user.role);
         localStorage.setItem('token', result.jwtToken);
-        this.router.navigateByUrl('/' + result.role);
+        this.router.navigateByUrl('/' + this.user.role);
         this.dialogRef.close();
       })
       .catch((error) => {

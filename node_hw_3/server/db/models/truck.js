@@ -3,8 +3,16 @@ const mongoose = require('mongoose');
 module.exports = mongoose.model('Truck',
     mongoose.Schema({
         type: {
-            type: String,
-            required: true
+            type: {
+                name: String,
+                dimensions: {
+                    width: Number,
+                    length: Number,
+                    height: Number
+                },
+                payload: Number
+            },
+            required: true,
         },
         created_by: {
             type: mongoose.ObjectId,
@@ -15,6 +23,9 @@ module.exports = mongoose.model('Truck',
             type: mongoose.ObjectId,
             ref: 'Driver'
         },
-        status: String
+        status: {
+            abbr: String,
+            status: String,
+        }
     })
 );

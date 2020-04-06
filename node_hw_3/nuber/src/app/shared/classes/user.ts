@@ -5,12 +5,10 @@ export class User {
   email: string;
   password: string;
   role: string;
+  jwtToken: string;
 
-  constructor(email, password) {
+  constructor() {
     if (new.target === User)
       throw new TypeError('Cannot construct User instances directly');
-
-    this.email = email;
-    this.password = password;
   }
 }

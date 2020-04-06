@@ -49,7 +49,7 @@ async function sendToken(req, res, user) {
         return res.status(400).json("Password is incorrect.");
 
     const jwtToken = jwt.sign(user.toJSON(), secret);
-    res.json({ role: req.body.role, jwtToken: jwtToken });
+    res.json({ jwtToken: jwtToken });
 }
 
 module.exports = router;
