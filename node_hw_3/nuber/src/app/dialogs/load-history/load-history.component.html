@@ -1,0 +1,7 @@
+<ul>
+    <li *ngFor='let log of logs'>
+        <p>{{capitalize(log.message)}}</p>
+        <p>{{log.time | date:'medium'}}</p>
+    </li>
+</ul>
+<button (click)="dialogRef.close()">Ok</button>

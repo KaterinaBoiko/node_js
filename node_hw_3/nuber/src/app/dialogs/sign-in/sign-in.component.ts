@@ -38,7 +38,7 @@ export class SignInComponent implements OnInit {
 
   createForm() {
     this.signInForm = this.fb.group({
-      email: ['qq@ss.com', [Validators.required, Validators.email]],
+      email: ['a@g.com', [Validators.required, Validators.email]],
       password: [
         '12345',
         [
@@ -53,18 +53,14 @@ export class SignInComponent implements OnInit {
 
   onSubmit() {
     this.user = this.signInForm.value;
-    console.log(this.user);
     this.authService
       .login(this.user)
       .then((result: any) => {
-        console.log(result);
-        localStorage.setItem('role', this.user.role);
-        localStorage.setItem('token', result.jwtToken);
+        this.userService.setUserData(this.user.role, result.jwtToken);
         this.router.navigateByUrl('/' + this.user.role);
         this.dialogRef.close();
       })
       .catch((error) => {
-        console.log(error.error);
         this.openSnackBar(error.error);
       });
   }

@@ -1,27 +1,20 @@
-a {
-    padding: 20px;
-    font-size: 20px;
+ul {
+    list-style-type: "— ";
 }
 
-table {
-    min-width: 70%;
-}
-
-td {
-    text-align: center;
-}
-
-i {
-    cursor: pointer;
+p {
+    margin: 0;
 }
 
 button {
     background-color: rgb(41, 41, 41);
     border-radius: 3px;
+    width: 120px;
+    height: 35px;
     color: white;
     border: 0;
     font-size: 16px;
-    padding: 0 10px;
+    float: right;
 
     &:hover:enabled {
         transform: scale(1.05);

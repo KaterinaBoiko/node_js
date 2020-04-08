@@ -1,6 +1,7 @@
 const Joi = require('@hapi/joi');
 
 module.exports = Joi.object().keys({
+    title: Joi.string(),
     logs: Joi.array().items(
         Joi.object({
             message: Joi.string().required(),

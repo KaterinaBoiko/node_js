@@ -1,10 +1,10 @@
-table {
-    min-width: 50%;
+a {
+    padding: 20px;
+    font-size: 20px;
 }
 
-td,
-th {
-    //border: 1px solid black;
+table {
+    min-width: 50%;
 }
 
 td {
@@ -21,4 +21,25 @@ td {
 
 i {
     cursor: pointer;
+}
+
+button {
+    background-color: rgb(41, 41, 41);
+    border-radius: 3px;
+    width: 120px;
+    height: 35px;
+    color: white;
+    border: 0;
+    font-size: 16px;
+
+    &:hover:enabled {
+        transform: scale(1.05);
+        cursor: pointer;
+    }
+}
+
+.toAssign {
+    width: auto;
+    height: auto;
+    padding: 0 10px;
 }

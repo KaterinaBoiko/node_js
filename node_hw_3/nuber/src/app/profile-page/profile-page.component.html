@@ -1,3 +1,5 @@
+<a href="javascript:;" (click)="location.back()">Back</a>
+<a routerLink="/" (click)="logOut()">Log Out</a>
 <div class="main">
     <form #userData="ngForm" *ngIf="user" (ngSubmit)="onSubmit(userData.value)">
         <table>
@@ -28,7 +30,7 @@
         </table>
         <button type="submit">Save changes</button>
     </form>
-    <button class="delete">Delete account</button>
+    <button class="delete" (click)="deleteAccount()">Delete account</button>
     <button class="changePass">Change password</button>
 
 </div>

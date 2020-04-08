@@ -12,7 +12,11 @@ router.get('/drivers', (req, res) => {
 
 router.get('/drivers/:id', (req, res) => {
     Driver.findById(req.params.id)
-        .then(driver => res.json({ status: 'ok', driver }))
+        .then(driver => res.json({
+            name: driver.name,
+            username: driver.username,
+            email: driver.email
+        }))
         .catch(e => { res.status(500).json(e.message) })
 });
 

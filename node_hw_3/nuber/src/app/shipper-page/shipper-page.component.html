@@ -1,2 +1,32 @@
-<p>shipper-page works!</p>
-<a routerLink="/profile">Profile</a>
+<div *ngIf="!currShipper">Oops, you don`t have permission</div>
+<div *ngIf="currShipper" class="main">
+    <a routerLink="/profile">Profile</a>
+    <a routerLink="/" (click)="logOut()">Log Out</a>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Dimesions</th>
+            <th>Payload</th>
+            <th>Status</th>
+            <th>State</th>
+            <th>Driver</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let load of createdLoads">
+            <td>{{load.title}}</td>
+            <td *ngIf="load.dimensions">{{load.dimensions.width}}x{{load.dimensions.length}}x{{load.dimensions.height}}
+            </td>
+            <td>{{load.payload}}</td>
+            <td><span *ngIf="load.status">{{load.status.toUpperCase()}}</span></td>
+            <td>{{load.state}}</td>
+            <td><button *ngIf="load.assigned_by" class="btnInTable"
+                    (click)="openDialogDriverInfo(load.assigned_by)">Info</button></td>
+            <td><button class="btnInTable" (click)="openDialogHistory(load.logs)">History</button></td>
+            <td *ngIf="load.status == 'new'"><button class="btnInTable" (click)="postLoad(load)">Post</button></td>
+            <td *ngIf="load.status == 'new'"><i class="fas fa-trash" (click)="deleteLoad(load)"></i></td>
+        </tr>
+    </table>
+    <button (click)="openDialogAddload()">Create load</button>
+</div>

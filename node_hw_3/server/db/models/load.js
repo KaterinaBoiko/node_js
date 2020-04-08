@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 module.exports = mongoose.model('Load',
     mongoose.Schema({
+        title: String,
         logs: [{
             message: String,
             time: {

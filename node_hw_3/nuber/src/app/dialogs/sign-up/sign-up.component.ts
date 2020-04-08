@@ -69,17 +69,14 @@ export class SignUpComponent implements OnInit {
   onSubmit() {
     delete this.signUpForm.value.confirmPass;
     this.user = this.signUpForm.value;
-    console.log(this.user);
     this.authService
       .register(this.user)
       .then((result: any) => {
-        console.log(result);
         this.userService.setUserData(this.user.role, result.jwtToken);
         this.router.navigateByUrl('/' + this.user.role);
         this.dialogRef.close();
       })
       .catch((error) => {
-        console.log(error.error);
         this.openSnackBar(error.error);
       });
   }

@@ -1,5 +1,6 @@
 export class Load {
-  id: string;
+  _id: string;
+  title: string;
   logs: [
     {
       message: string;
@@ -17,14 +18,17 @@ export class Load {
   };
   payload: number;
 
-  constructor(created_by, dimensions, payload) {
+  constructor(title, created_by, dimensions, payload) {
+    this.title = title;
     this.created_by = created_by;
     this.dimensions = dimensions;
     this.payload = payload;
+    this.status = LoadStatuses[0];
+    this.logs = [{ message: 'created', time: new Date() }];
   }
 }
 
-export const LoadStatuses = ['NEW', 'POSTED', 'ASSIGNED', 'SHIPPED'];
+export const LoadStatuses = ['new', 'posted', 'assigned', 'shipped'];
 
 export const LoadStates = [
   'En route to pick up',

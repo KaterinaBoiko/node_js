@@ -11,14 +11,13 @@ import { Shipper } from '../shared/classes/shipper';
 export class UserService {
   private currUser: User;
 
-  constructor(private http: HttpClient) {
-    this.setUserData(
+  constructor(private http: HttpClient) {}
+
+  async getCurrUser() {
+    await this.setUserData(
       localStorage.getItem('role'),
       localStorage.getItem('token')
     );
-  }
-
-  getCurrUser(): User {
     return this.currUser;
   }
 
@@ -31,20 +30,21 @@ export class UserService {
     };
     return this.http
       .get<User>(baseURL + 'api/profile', httpOptions)
-      .toPromise();
-  }
-
-  setUserData(role, jwtToken): void {
-    if (role == 'driver') this.currUser = new Driver();
-    else if (role == 'shipper') this.currUser = new Shipper();
-    localStorage.setItem('role', role);
-
-    this.getUserData(jwtToken)
+      .toPromise()
       .then((data: User) => {
         this.currUser = Object.assign(this.currUser, data, {
           jwtToken: jwtToken,
         });
       })
       .catch((error) => console.log(error.error));
+  }
+
+  async setUserData(role, jwtToken) {
+    if (role == 'driver') this.currUser = new Driver();
+    else if (role == 'shipper') this.currUser = new Shipper();
+    localStorage.setItem('role', role);
+    localStorage.setItem('token', jwtToken);
+
+    await this.getUserData(jwtToken);
   }
 }

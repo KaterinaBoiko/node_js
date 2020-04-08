@@ -1,0 +1,75 @@
+<form [formGroup]="addLoadForm" (ngSubmit)="onSubmit()">
+    <div class="wrapper">
+        <p class="title">Create load:</p>
+
+        <mat-form-field>
+            <mat-label>Enter load title</mat-label>
+            <input matInput formControlName="title" placeholder="Title" type="text" required>
+            <mat-error *ngIf="addLoadForm.get('title').hasError('required')">
+                Title is required
+            </mat-error>
+        </mat-form-field>
+
+        <div class="dimensions">
+            <mat-form-field>
+                <mat-label>Enter width</mat-label>
+                <input matInput formControlName="width" placeholder="Width" type="text" required>
+                <mat-error *ngIf="addLoadForm.get('width').hasError('required')">
+                    Width is required
+                </mat-error>
+                <mat-error *ngIf="addLoadForm.get('width').hasError('pattern')">
+                    Only numbers
+                </mat-error>
+                <mat-error *ngIf="addLoadForm.get('width').hasError('max')">
+                    Width cannot be more than 700
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Enter length</mat-label>
+                <input matInput formControlName="length" placeholder="Length" type="text" required>
+                <mat-error *ngIf="addLoadForm.get('length').hasError('required')">
+                    Length is required
+                </mat-error>
+                <mat-error *ngIf="addLoadForm.get('length').hasError('pattern')">
+                    Only numbers
+                </mat-error>
+                <mat-error *ngIf="addLoadForm.get('length').hasError('max')">
+                    Length cannot be more than 350
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Enter height</mat-label>
+                <input matInput formControlName="height" placeholder="Height" type="text" required>
+                <mat-error *ngIf="addLoadForm.get('height').hasError('required')">
+                    Height is required
+                </mat-error>
+                <mat-error *ngIf="addLoadForm.get('height').hasError('pattern')">
+                    Only numbers
+                </mat-error>
+                <mat-error *ngIf="addLoadForm.get('height').hasError('max')">
+                    Height cannot be more than 200
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <mat-form-field>
+            <mat-label>Enter payload</mat-label>
+            <input matInput formControlName="payload" placeholder="Payload" type="text" required>
+            <mat-error *ngIf="addLoadForm.get('payload').hasError('required')">
+                Payload is required
+            </mat-error>
+            <mat-error *ngIf="addLoadForm.get('payload').hasError('pattern')">
+                Payload should contain only numbers
+            </mat-error>
+            <mat-error *ngIf="addLoadForm.get('payload').hasError('max')">
+                Payload cannot be more than 4000
+            </mat-error>
+        </mat-form-field>
+
+        <div class="addButton">
+            <button type="submit" [disabled]="addLoadForm.invalid">Add</button>
+        </div>
+    </div>
+</form>

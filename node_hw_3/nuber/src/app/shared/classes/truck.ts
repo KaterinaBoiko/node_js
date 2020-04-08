@@ -1,5 +1,5 @@
 export class Truck {
-  id: string;
+  _id: string;
   type: TruckType;
   created_by: string;
   assigned_by: string;
@@ -13,8 +13,8 @@ export class Truck {
 }
 
 export const TruckStatuses = [
-  { abbr: 'IS', status: 'In service' },
-  { abbr: 'OL', status: 'On load' },
+  { abbr: 'is', status: 'In service' },
+  { abbr: 'ol', status: 'On load' },
 ];
 
 export class TruckType {

@@ -21,12 +21,12 @@ export class DriverPageComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
-  ngOnInit(): void {
-    this.currDriver = this.driverService.getCurrentDriver();
-    this.driverService.getTrucks().then((result: any) => {
-      this.createdTrucks = result.trucks;
-      console.log(this.createdTrucks);
-    });
+  async ngOnInit() {
+    this.currDriver = await this.driverService.getCurrentDriver();
+    console.log(this.currDriver);
+    await this.driverService.getTrucks();
+    this.createdTrucks = this.driverService.createdTrucks;
+    console.log(this.createdTrucks);
   }
 
   openDialogAddTruck(): void {
@@ -37,13 +37,53 @@ export class DriverPageComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((truckType: TruckType) => {
       if (!truckType) return;
-      const truck = new Truck(truckType, this.currDriver.id);
+      const truck = new Truck(truckType, this.currDriver._id);
       console.log(JSON.stringify(truck));
       this.driverService
         .addTruck(truck)
         .then(() => this.createdTrucks.push(truck))
         .catch((error) => this.openSnackBar(error.error));
     });
+  }
+
+  assignTruck(truck: Truck) {
+    this.driverService
+      .assignTruck(truck._id, this.currDriver._id)
+      .then(() => {
+        let truckToUnassign = this.createdTrucks.find(
+          (x) => x.assigned_by == this.currDriver._id
+        );
+        if (truckToUnassign) truckToUnassign.assigned_by = undefined;
+        truck.assigned_by = this.currDriver._id;
+      })
+      .catch((error) => this.openSnackBar(error.error));
+  }
+
+  deleteTruck(truck: Truck) {
+    this.driverService
+      .deleteTruck(truck._id)
+      .then(() => {
+        let index = this.createdTrucks.findIndex((x) => x._id == truck._id);
+        this.createdTrucks.splice(index, 1);
+      })
+      .catch((error) => this.openSnackBar(error.error));
+  }
+
+  onStatusChange(truck: Truck) {
+    if (truck.status.abbr == 'is')
+      this.driverService.changeTruckStatus(
+        { abbr: 'is', status: 'in service' },
+        truck._id
+      );
+    if (truck.status.abbr == 'ol')
+      this.driverService.changeTruckStatus(
+        { abbr: 'ol', status: 'on load' },
+        truck._id
+      );
+  }
+
+  logOut() {
+    localStorage.clear();
   }
 
   openSnackBar(message: string) {
