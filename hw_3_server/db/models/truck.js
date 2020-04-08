@@ -19,7 +19,7 @@ module.exports = mongoose.model('Truck',
             ref: 'Driver',
             required: true
         },
-        assigned_by: {
+        assigned_to: {
             type: mongoose.ObjectId,
             ref: 'Driver'
         },

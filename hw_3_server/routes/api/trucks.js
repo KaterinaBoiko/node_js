@@ -4,6 +4,9 @@ const truckSchema = require('../../joiSchemas/truckSchema');
 const router = express.Router();
 
 router.get('/trucks', (req, res) => {
+    if (req.user.role != 'driver')
+        return res.status(400).json('You don`t have permission')
+
     Truck.find({ created_by: req.user._id })
         .then(trucks => res.json({ status: 'ok', trucks }))
         .catch(e => { res.status(500).json(e.message) })
@@ -22,15 +25,18 @@ router.get('/trucks/:id', (req, res) => {
 });
 
 router.post('/trucks', (req, res) => {
+    console.log(req.user)
     const { error, value } = truckSchema.validate(req.body);
     if (error)
-        res.status(400).json(error.details[0].message)
-    else {
-        const truck = new Truck(value);
-        truck.save()
-            .then(() => { res.json({ status: 'new truck created' }) })
-            .catch(e => { res.status(500).json(e.message) });
-    }
+        return res.status(400).json(error.details[0].message)
+    if (req.user.role != 'driver')
+        return res.status(400).json('You don`t have permission')
+
+    const truck = new Truck(value);
+    truck.save()
+        .then(() => { res.json({ status: 'Truck created successfully' }) })
+        .catch(e => { res.status(500).json(e.message) });
+
 });
 
 router.delete('/trucks/:id', (req, res) => {
@@ -58,6 +64,17 @@ router.put('/trucks/:id', async (req, res) => {
     }
 });
 
+router.patch('/trucks/:id/assign', (req, res) => {
+    const { error, value } = truckSchema.validate(req.body);
+    if (error)
+        return res.status(400).json(error.details[0].message);
+    if (req.user.role != 'driver')
+        return res.status(400).json('You don`t have permission')
+
+    Truck.findByIdAndUpdate(req.params.id, { assigned_to: value.assigned_to }, { new: true })
+        .then(() => res.json({ status: 'Truck assigned successfully' }))
+        .catch(e => { res.status(500).json(e.message) })
+})
 
 router.patch('/trucks/:id/status', (req, res) => {
     const { error, value } = truckSchema.validate(req.body);

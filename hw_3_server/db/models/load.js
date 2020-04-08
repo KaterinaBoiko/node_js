@@ -15,7 +15,7 @@ module.exports = mongoose.model('Load',
             ref: 'Shipper',
             required: true
         },
-        assigned_by: {
+        assigned_to: {
             type: mongoose.ObjectId,
             ref: 'Driver'
         },

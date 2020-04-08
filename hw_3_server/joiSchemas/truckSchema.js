@@ -11,7 +11,7 @@ module.exports = Joi.object().keys({
         payload: Joi.number().positive().max(4000),
     }),
     created_by: Joi.string(),
-    assigned_by: Joi.string(),
+    assigned_to: Joi.string(),
     status: Joi.object({
         abbr: Joi.string().valid('is', 'ol').lowercase(),
         status: Joi.string().valid('in service', 'on load').lowercase(),
